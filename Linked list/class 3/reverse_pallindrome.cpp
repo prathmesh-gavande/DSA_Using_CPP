@@ -1,197 +1,200 @@
-#include <iostream>
-using namespace std;
+//Reverse a linked list
 
-class Node{
-  public:
-    int data;
-    Node* prev;
-    Node* next;
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseUsingRecursion(ListNode* prev, ListNode* curr) {
+        //base case
+        if(curr == NULL) {
+            return prev;
+        }
+        //1 case hum solve krenge
+        ListNode* nextNode = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextNode;
 
-    Node() {
-      this->prev = NULL;
-      this->next = NULL;
+        //baaaki kon sambhalega - recursion
+        return reverseUsingRecursion(prev, curr);
     }
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prev = NULL;
+        ListNode* curr = head;
 
-    Node(int data) {
-      this->data = data;
-      this->prev = NULL;
-      this->next = NULL;
+        return reverseUsingRecursion(prev,curr);
+
+        // while(curr != NULL) {
+        //     ListNode* nextNode = curr->next;
+        //     curr->next = prev;
+        //     prev = curr;
+        //     curr = nextNode;
+        // }
+        // return prev;
     }
 };
 
-void print(Node* head) {
-  Node* temp = head;
 
-  while(temp != NULL) {
-    cout << temp->data << "->";
-    temp = temp->next;
-  }
-
-}
-
-int findLength(Node* &head) {
-  Node* temp = head;
-  int len = 0;
-
-  while(temp != NULL) {
-    len++;
-    temp = temp->next;
-  }
-  return len;
-}
-
-void insertAtHead(Node* &head, Node* &tail, int data) {
-  //LL is empty
-  if(head == NULL) {
-    Node* newNode = new Node(data);
-    head = newNode;
-    tail = newNode;
-  }
-  else {
-    //LL is not empty
-    Node* newNode = new Node(data);
-    newNode -> next = head;
-    head -> prev = newNode;
-    head = newNode;
-  }
-}
-
-void insertAtTail(Node* &head, Node* &tail, int data) {
-  if(head == NULL) {
-    Node* newNode = new Node(data);
-    head = newNode;
-    tail = newNode;
-  }
-  else {
-    //LL is non empty
-    Node* newNode = new Node(data);
-    tail-> next = newNode;
-    newNode->prev = tail;
-    tail = newNode;
-  }
-}
-
-void insertAtPosition(Node* &head, Node* &tail, int data, int position) {
-  if(head == NULL) {
-    Node* newNode = new Node(data);
-    head = newNode;
-    tail = newNode;
-  }
-  else {
-    int len = findLength(head);
-    if(position == 1) {
-      insertAtHead(head, tail, data);
+///Middle of a linked list
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    int getLength(ListNode* head) {
+        int len = 0;
+        ListNode* temp = head;
+        while(temp != NULL) {
+            len++;
+            temp = temp->next;
+        }
+        return len;
     }
-    else if(position == len+1) {
-      insertAtTail(head, tail, data);
+    ListNode* middleNode(ListNode* head) {
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL) {
+            fast = fast ->next;
+            if(fast != NULL) {
+                fast = fast -> next;
+                //main yaha keh skta hu k fast ne 2 step chal liye h 
+                //ab slow ko bhi chalwao ek step
+                slow = slow -> next;
+            }
+        }
+
+        return slow;
+
+
+        // int n = getLength(head);
+        // int position = n/2 + 1;
+        
+        // ListNode* temp = head;
+        // while(position != 1) {
+        //     position--;
+        //     temp = temp -> next;
+        // }
+        // return temp;
     }
-    else {
-      //insert in middle
-      //step1: create node
-      Node* newNode = new Node(data);
-      //ste2: set prev and curr pointer
-      Node* prevNode = NULL;
-      Node* currNode = head;
-      while(position != 1) {
-        position--;
-        prevNode = currNode;
-        currNode = currNode->next;
-      }
-      //step3:pointers update krre the
-      prevNode -> next = newNode;
-      newNode -> prev = prevNode;
-      newNode->next = currNode;
-      currNode->prev = newNode;
+};
+
+
+///Palindrome Check Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+ListNode* reverseUsingRecursion(ListNode* prev, ListNode* curr) {
+        //base case
+        if(curr == NULL) {
+            return prev;
+        }
+        //1 case hum solve krenge
+        ListNode* nextNode = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nextNode;
+
+        //baaaki kon sambhalega - recursion
+        return reverseUsingRecursion(prev, curr);
     }
-  }
-}
+ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
 
-void deleteNode(Node* &head, Node* &tail, int position) {
-  if(head == NULL) {
-    //LL is empty
-    cout << "Cannot delete, cox LL is empty" << endl;
-    return;
-  }
+        while(fast->next != NULL) {
+            fast = fast ->next;
+            if(fast->next != NULL) {
+                fast = fast -> next;
+                slow = slow -> next;
+            }
+        }
 
-  if(head == tail) {
-    Node* temp = head;
-    delete temp;
-    head = NULL;
-    tail = NULL;
-    return;
-  }
-  
-
-  int len = findLength(head);
-  if(position == 1) {
-    //delete from head
-    Node* temp = head;
-    head = head -> next;
-    temp -> next = NULL;
-    head -> prev = NULL;
-    delete temp;
-  }
-  else if(position == len) {
-    //delete from tail
-    Node* prevNode = tail -> prev;
-    prevNode->next = NULL;
-    tail-> prev = NULL;
-    delete tail;
-    tail = prevNode;
-  }
-  else {
-    //delete from middle
-    //step1: set prevNode/currNode/nextNode
-    Node* prevNode = NULL;
-    Node* currNode = head;
-    while(position != 1) {
-      position--;
-      prevNode = currNode;
-      currNode = currNode->next;
+        return slow;
     }
-    Node* nextNode = currNode -> next;
+    bool compareList(ListNode* head1, ListNode* head2) {
+        while( head2 != NULL) {
+            if(head1 -> val != head2->val) {
+                return false;
+            }
+            else {
+                head1 = head1->next;
+                head2=head2->next;
+            }
+        }
+        return true;
+    }
+    bool isPalindrome(ListNode* head) {
+        //break into 2 havles
+        ListNode* midNode = middleNode(head);
+        ListNode* head2 = midNode -> next;
+        midNode->next = NULL;
+        //reverse second half
 
-    prevNode->next = nextNode;
-    currNode->prev = NULL;
-    currNode->next = NULL;
-    nextNode -> prev = prevNode;
+        ListNode* prev = NULL;
+        ListNode* curr = head2;
+        head2 = reverseUsingRecursion(prev, curr);
+        
+        //compare both linked list
+        bool ans = compareList(head, head2);
+        return ans;
+        
+    }
+};
 
-    delete currNode;
+///Cycle Check in Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
 
+        map<ListNode*, bool> table;
 
-  }
-}
-
-int main() {
-
-  Node* head = NULL;
-  Node* tail = NULL;
-  insertAtHead(head, tail, 40);
-  insertAtHead(head, tail, 30);
-  insertAtHead(head, tail, 20);
-  insertAtHead(head, tail, 10);
-  print(head);
-   cout << endl;
-//   insertAtTail(head, tail, 1000);
-//insertAtPosition(head, tail, 1000, 5);
-  //print(head);
-
-  deleteNode(head, tail, 4);
-  print(head);
-//   cout << endl;
-//   deleteNode(head, tail, 2);
-//   print(head);
-
-//   cout << endl;
-//   deleteNode(head, tail, 2);
-//   print(head);
-
-//   cout << endl;
-//   deleteNode(head, tail, 1);
-//   print(head);
-//   cout << "length of LL is: " << findLength(head) << endl;
-
-//   deleteNode(head, tail, 1);
-//   print(head);
-  return 0;
-}
+        ListNode* temp = head;
+        while(temp != NULL) {
+            if(table[temp] == false) {
+                table[temp] = true;
+            }
+            else{
+                //cycle present
+                return true;
+            }
+            temp = temp -> next;
+        }
+        //loop not present
+        return false;
+        
+    }
+};
